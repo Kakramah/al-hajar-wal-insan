@@ -1,0 +1,252 @@
+/* الحجر والإنسان · الأسلوب 25 (حجر دافئ بفصول تمريرية) موروثاً: الحجر والأخضر والمغرة والحديد وCairo وحده،
+   وكائن حركة لاصق تمرّ فوقه الفصول ثم شاشة ختام. صُحّح منه ما يخالف الميزان: لا بطاقات زجاجية حول النص (ت13). */
+
+@font-face {
+  font-family: 'Cairo';
+  src: url('fonts/cairo-variable.woff2') format('woff2-variations'), url('fonts/cairo-variable.woff2') format('woff2');
+  font-weight: 200 1000;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* لوحة الأسلوب 25 */
+  --c-stone: #B9AD98;
+  --c-green: #1F3A2B;
+  --c-ochre: #B8862B;
+  --c-iron: #4A413A;
+  /* مشتقة منها */
+  --c-stone-hi: #D6CDBD;
+  --c-stone-lo: #A39882;
+  --c-block-1: #CBC1AE;
+  --c-block-2: #C3B8A4;
+  --c-block-3: #D0C7B6;
+  --c-ink: #2F2924;
+  --c-mute: #5E554D;
+  --c-ochre-deep: #7E5B1C;
+  --c-ash: #8C8984;
+  --c-weight: #201B18;
+  --c-crack: #2A2420;
+  --c-plaster: #DDD5C7;
+  --c-gold-glow: rgba(184, 134, 43, .28);
+  --c-dawn-0: rgba(214, 160, 82, .62);
+  --c-dawn-1: rgba(214, 170, 110, .22);
+  --c-gold-0: rgba(201, 150, 60, .55);
+  --c-weight-0: rgba(32, 27, 24, .94);
+  --c-weight-1: rgba(32, 27, 24, .72);
+  --c-ground-0: rgba(163, 152, 130, .55);
+  --c-ground-1: rgba(120, 110, 96, .55);
+  --c-none: rgba(185, 173, 152, 0);
+  --c-read: rgba(214, 205, 189, .96);
+  --c-read-mid: rgba(214, 205, 189, .78);
+  --c-read-0: rgba(214, 205, 189, 0);
+  --c-line: rgba(74, 65, 58, .28);
+
+  --f-main: 'Cairo', 'Noto Naskh Arabic', 'Geeza Pro', Tahoma, system-ui, sans-serif;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --gutter: 16px;
+  --col: min(33rem, 38vw);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--f-main);
+  background: var(--c-stone);
+  color: var(--c-ink);
+  font-size: 1.16rem;
+  line-height: 1.95;
+  font-weight: 500;
+  overflow-x: hidden;
+}
+img, svg { display: block; }
+body::after {
+  content: ""; position: fixed; inset: 0; z-index: 30; pointer-events: none;
+  background: url('images/grain.png') repeat; background-size: 160px; opacity: .07;
+}
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--c-green); outline-offset: 3px; border-radius: 2px; }
+
+.skip { position: absolute; inset-inline-start: 1rem; top: -4rem; background: var(--c-stone-hi); padding: .5rem 1rem; z-index: 20; }
+.skip:focus { top: 1rem; }
+
+.progress {
+  position: fixed; top: 0; inset-inline: 0; height: 3px; z-index: 15;
+  background: var(--c-ochre); transform-origin: 100% 50%; transform: scaleX(0);
+}
+
+.defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* المشهد اللاصق */
+.story { position: relative; }
+.stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; z-index: 0; }
+.stage .scene { width: 100%; height: 100%; }
+.stage::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to left, var(--c-read) 0%, var(--c-read-mid) 30%, var(--c-read-0) 50%);
+}
+
+/* عناصر المشهد: الألوان كلها من التوكنات */
+.scene .sky { fill: var(--c-stone); }
+.st-dawn-0 { stop-color: var(--c-dawn-0); }
+.st-dawn-1 { stop-color: var(--c-dawn-1); }
+.st-gold-0 { stop-color: var(--c-gold-0); }
+.st-weight-0 { stop-color: var(--c-weight-0); }
+.st-weight-1 { stop-color: var(--c-weight-1); }
+.st-ground-0 { stop-color: var(--c-ground-0); }
+.st-ground-1 { stop-color: var(--c-ground-1); }
+.st-none { stop-color: var(--c-none); }
+.scene .tone { opacity: 0; }
+.scene .tone-ash { fill: var(--c-ash); }
+.scene .skyline { opacity: .3; }
+.scene .bld { fill: var(--c-stone-lo); fill-opacity: .55; stroke: var(--c-iron); stroke-width: 2; stroke-linejoin: round; }
+.scene .holes path { fill: var(--c-iron); fill-opacity: .55; }
+.scene .rebar { fill: none; stroke: var(--c-iron); stroke-width: 2; stroke-linecap: round; }
+.scene .fix path { fill: var(--c-block-2); stroke: var(--c-iron); stroke-width: 2; stroke-linejoin: round; }
+.scene .fix-house, .scene .fix-factory { opacity: 0; }
+.scene .horizon { stroke: var(--c-iron); stroke-opacity: .5; stroke-width: 2; fill: none; }
+.scene .road-surface { fill: var(--c-stone-lo); opacity: 0; }
+.scene .road-edge { fill: none; stroke: var(--c-iron); stroke-width: 2.5; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.scene .lanes path { fill: var(--c-stone-hi); opacity: 0; }
+.scene .potholes ellipse { fill: var(--c-iron); fill-opacity: .6; }
+.scene .potholes { opacity: 0; }
+.scene .road-new { fill: var(--c-block-1); opacity: 0; }
+.scene .scaffold path { fill: none; stroke: var(--c-iron); stroke-opacity: .55; stroke-width: 2; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.scene .blk { fill: var(--c-block-1); stroke: var(--c-iron); stroke-opacity: .55; stroke-width: 1.4; opacity: 0; }
+.scene .blk.t2 { fill: var(--c-block-2); }
+.scene .blk.t3 { fill: var(--c-block-3); }
+.scene .crack { fill: none; stroke: var(--c-crack); stroke-width: 3.4; stroke-linejoin: round; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.scene .seg { opacity: 0; }
+.scene .seg .glow { stroke: var(--c-gold-glow); stroke-width: 9; stroke-linecap: round; }
+.scene .seg .core { stroke: var(--c-ochre); stroke-width: 2.6; stroke-linecap: round; }
+.scene .pin { stroke: var(--c-iron); stroke-width: 3.5; stroke-linecap: round; fill: none; }
+.scene .mason { opacity: 0; }
+.scene .string { fill: none; stroke: var(--c-ink); stroke-width: 1.6; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.scene .string-gold { fill: none; stroke: var(--c-ochre); stroke-width: 2.2; opacity: 0; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.scene .plaster { fill: var(--c-plaster); stroke: var(--c-iron); stroke-opacity: .25; stroke-width: 1; opacity: 0; }
+.scene .human { opacity: 0; }
+.scene .human circle, .scene .human path { fill: none; stroke: var(--c-ink); stroke-width: 2.4; stroke-linejoin: round; }
+.scene .human-dash circle, .scene .human-dash path { stroke-dasharray: 6 6; fill: var(--c-stone); fill-opacity: .7; }
+.scene .human-solid { opacity: 0; }
+.scene .human-solid path, .scene .human-solid circle { fill: var(--c-gold-glow); }
+
+/* الفصول */
+.chapters { position: relative; z-index: 1; margin-top: -100vh; margin-top: -100svh; }
+.ch { position: relative; min-height: 150vh; padding: 34vh 0 24vh; }
+.txt { width: var(--col); margin-inline-start: clamp(1.5rem, 6vw, 7rem); }
+.ch h2 { color: var(--c-green); font-size: 1.85rem; font-weight: 800; line-height: 1.4; margin-bottom: .7rem; }
+.ch p + p { margin-top: 1.05em; }
+
+.hero { min-height: 100vh; min-height: 100svh; padding: 0; display: flex; align-items: center; }
+.eyebrow { font-size: 1rem; font-weight: 700; color: var(--c-ochre-deep); }
+.hero h1 { font-size: clamp(2.1rem, 3.9vw, 3.5rem); font-weight: 900; line-height: 1.32; margin: .4rem 0 1rem; }
+.hero h1 span { display: block; }
+.h-green { color: var(--c-green); }
+.h-ochre { color: var(--c-ochre-deep); margin-top: .3rem; }
+.cue-scroll { margin-top: 2rem; font-size: .9rem; color: var(--c-mute); }
+.cue-scroll::after {
+  content: ""; display: block; width: 1px; height: 46px; margin-top: .5rem; margin-inline-start: 1.6rem;
+  background: var(--c-iron); transform-origin: 50% 0; animation: drop 2.4s var(--ease-out) infinite;
+}
+@keyframes drop { 0% { transform: scaleY(0); opacity: 1; } 70% { transform: scaleY(1); opacity: 1; } 100% { transform: scaleY(1); opacity: 0; } }
+
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.strong { font-weight: 700; color: var(--c-green); }
+.ch h2.big { font-size: clamp(1.9rem, 3vw, 2.6rem); font-weight: 900; line-height: 1.35; margin-bottom: 1.4rem; }
+.lead-in { font-size: 1.05rem; color: var(--c-mute); margin-bottom: .2rem; }
+.asks p { font-size: 1.24rem; font-weight: 600; line-height: 1.8; }
+.asks p + p { margin-top: .8em; }
+.wheres { font-weight: 700; color: var(--c-iron); }
+
+.hadith { margin: 0 0 2rem; }
+.hadith .said { font-size: 1rem; color: var(--c-mute); }
+.hadith blockquote p { font-size: clamp(1.45rem, 2.2vw, 1.8rem); font-weight: 800; line-height: 1.6; color: var(--c-green); margin: .3rem 0 .5rem; }
+.hadith .cite { font-size: .86rem; line-height: 1.7; color: var(--c-mute); }
+.hadith .cite a, .src a { text-underline-offset: .3em; text-decoration-color: var(--c-ochre); }
+
+.ref { font-size: .7em; vertical-align: super; line-height: 0; margin-inline-start: .12em; color: var(--c-ochre-deep); text-decoration: none; padding: .2em; }
+
+.closing { min-height: 130vh; display: flex; align-items: center; padding: 20vh 0; }
+.dua { font-size: 1.15rem; color: var(--c-iron); margin-bottom: 1rem; }
+.question { font-size: clamp(1.7rem, 3vw, 2.6rem); font-weight: 900; line-height: 1.5; }
+.question span { display: block; }
+.question .q1 { color: var(--c-iron); font-weight: 700; }
+.question .q2 { color: var(--c-green); margin-top: .5rem; }
+
+/* صور فاصلة: تذوب حوافها في الحجر والمشهد خلفها (ت8)، ولا إطار لها */
+.plate { position: relative; width: 100%; margin: 14vh 0 10vh; background: linear-gradient(to bottom, var(--c-none) 0, var(--c-stone) 14%, var(--c-stone) 82%, var(--c-none) 100%); }
+.plate img {
+  display: block; width: 100%; height: 86vh; height: 86svh; object-fit: cover; object-position: 30% 50%;
+  filter: saturate(.86) sepia(.08);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, black 16%, black 80%, transparent 100%), linear-gradient(to left, transparent 0, black 22%);
+  -webkit-mask-composite: source-in;
+          mask-image: linear-gradient(to bottom, transparent 0, black 16%, black 80%, transparent 100%), linear-gradient(to left, transparent 0, black 22%);
+          mask-composite: intersect;
+}
+.plate figcaption { position: absolute; inset-inline-start: clamp(1.5rem, 6vw, 7rem); bottom: 16%; font-size: .86rem; color: var(--c-mute); max-width: 22rem; }
+.ch[data-ch="7"] .plate { margin-top: 0; }
+
+/* الظهور مع القراءة */
+.js .rv { opacity: 0; transform: translateY(14px); transition: opacity .8s var(--ease-out), transform .8s var(--ease-out); }
+.js .rv.in { opacity: 1; transform: none; }
+
+/* نسخ المشهد داخل الفصول: للهاتف وللحركة المخففة */
+.fig { display: none; }
+.figs .stage { display: none; }
+.figs .chapters { margin-top: 0; }
+.figs .ch { min-height: 0; padding: 0 0 3.2rem; }
+.figs .hero { min-height: 0; display: block; padding-bottom: 2rem; }
+.figs .closing { min-height: 0; display: block; padding: 2rem 0 4rem; }
+.figs .txt { width: auto; max-width: 36rem; margin: 0 auto; padding: 0 var(--gutter); }
+.figs .fig {
+  display: block; position: relative; width: 100%; max-width: 46rem; margin: 0 auto 1.2rem;
+  aspect-ratio: 9 / 7; overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, black 9%, black 86%, transparent 100%);
+          mask-image: linear-gradient(to bottom, transparent 0, black 9%, black 86%, transparent 100%);
+}
+.figs .fig .scene { width: 100%; height: 100%; }
+.figs .hero .fig { aspect-ratio: 4 / 5; max-height: 72svh; margin-bottom: 0; }
+.figs .hero h1 { font-size: clamp(1.9rem, 8.4vw, 2.6rem); }
+.figs .ch h2.big { font-size: 1.75rem; }
+.figs .hadith blockquote p { font-size: 1.4rem; }
+.figs .question { font-size: 1.6rem; }
+.figs .cue-scroll::after { display: none; }
+.figs .ch h2 { font-size: 1.55rem; }
+.figs .plate { margin: 0 0 2.4rem; }
+.figs .plate img { height: auto; aspect-ratio: 16 / 10; -webkit-mask-image: linear-gradient(to bottom, transparent 0, black 12%, black 84%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, black 12%, black 84%, transparent 100%); }
+.figs .plate figcaption { position: static; padding: .3rem var(--gutter) 0; max-width: 36rem; margin: 0 auto; }
+
+@media (max-width: 767px) {
+  body { font-size: 1.08rem; line-height: 1.9; }
+}
+
+/* الذيل: خاتمة واحدة هادئة */
+.foot { position: relative; z-index: 2; background: var(--c-stone); padding: 0 var(--gutter) max(2.4rem, env(safe-area-inset-bottom)); max-width: 44rem; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 1.1rem; text-align: center; }
+.foot hr { width: 100%; border: 0; height: 1px; background: var(--c-line); }
+.share { font: inherit; font-size: 1rem; font-weight: 700; color: var(--c-ink); background: none; border: 0; border-bottom: 1px solid var(--c-ochre); padding: .5rem .2rem; min-height: 44px; cursor: pointer; }
+.share-alt { margin-top: .4rem; }
+.share-msg { font-size: .9rem; color: var(--c-mute); }
+.share-links { display: flex; flex-wrap: wrap; justify-content: center; gap: .4rem 1.2rem; font-size: .95rem; }
+.share-links a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 .3rem; text-decoration: none; border-bottom: 1px solid var(--c-line); }
+.src { font-size: .9rem; color: var(--c-mute); max-width: 30rem; }
+.src summary { cursor: pointer; list-style: none; padding: .5rem; min-height: 44px; }
+.src summary::-webkit-details-marker { display: none; }
+.src p { margin-top: .4rem; line-height: 1.8; }
+.tail { display: flex; flex-direction: column; align-items: center; gap: 1rem; font-size: .86rem; color: var(--c-mute); margin-top: .4rem; }
+.sig-name { unicode-bidi: isolate; }
+.eagle { width: 64px; height: auto; aspect-ratio: 1000 / 754.1; margin: 16px; }
+.links { display: flex; justify-content: center; gap: 1.1rem; }
+.links a { display: grid; place-items: center; width: 48px; height: 48px; border: 1px solid var(--c-line); border-radius: 50%; color: var(--c-ink); transition: border-color .2s ease, color .2s ease; }
+
+@media (hover: hover) and (pointer: fine) {
+  .links a:hover { border-color: var(--c-ochre); color: var(--c-ochre-deep); }
+  .share:hover { color: var(--c-ochre-deep); }
+  .share-links a:hover { border-color: var(--c-ochre); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .rv { opacity: 1; transform: none; transition: none; }
+  .cue-scroll::after { animation: none; }
+  .progress { display: none; }
+}
